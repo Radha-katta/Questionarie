@@ -1,26 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-
+import questionsModel from '../../assets/questionnaire.json';
+import { Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
+  response = new Subject();
+
   constructor(
     private httpClient: HttpClient
   ) { }
 
-  getPatients() {
-    return this.httpClient.get(environment.queryURI + '/Patient',
-      { headers: this.getHeaders() });
-  }
-
-  private getHeaders(): HttpHeaders {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/fhir+json'
-    });
-    return headers;
+  getQuestions() {
+    return questionsModel;
   }
 }
 

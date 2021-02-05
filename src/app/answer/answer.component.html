@@ -1,0 +1,23 @@
+<div class="container greyContainer" *ngIf="answers">
+    <div> Resource Type:  {{answers.resourceType}} </div>
+    <div>Date: {{answers.date}}</div>
+    <div>Status: {{answers.status}}</div>
+
+    <ng-container
+    *ngTemplateOutlet="recursiveListTmpl2; context:{ itemVar: answers}" >
+    </ng-container>
+
+
+    <ng-template #recursiveListTmpl2 let-itemVar="itemVar">
+        <div  [ngClass]="{subSectionHeader : itemVar.type == 'group'}" class="col-lg-10 col-xs-10" >
+            <span>{{itemVar.linkId}} {{itemVar.text}}</span>
+            <span class="answer col-lg-3 col-xs-3">{{getStr(itemVar.answer)}}</span>
+        </div>
+                <ng-container *ngFor="let v of itemVar.item"  class="subSectionContent">
+                    <ng-container
+                            *ngTemplateOutlet="recursiveListTmpl2; context:{ itemVar: v}"
+                    ></ng-container>
+            </ng-container>
+       
+  </ng-template>
+</div>

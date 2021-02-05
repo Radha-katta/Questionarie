@@ -5,13 +5,18 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { ApiService } from './services/api-service.service';
-import { QuestionsComponent } from './questions/questions.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { QuestionTaskComponent } from './question-task/question-task.component';
+import { LabelControlDirective } from './directives/label-control.directive';
+import { AnswerComponent } from './answer/answer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    QuestionsComponent
+    //QuestionsComponent,
+    QuestionTaskComponent,
+    LabelControlDirective,
+    AnswerComponent
   ],
   imports: [
     BrowserModule,
