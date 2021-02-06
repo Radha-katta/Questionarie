@@ -5,57 +5,46 @@
     <form [formGroup]="questionFormGroup"  (ngSubmit)="onSubmit($event)" class="subSection">
     <div formArrayName="item" *ngFor="let formControl of questionFormGroup.get('item')['controls']; let i = index;">
         <div [formGroupName]="i" >
-                    <ng-container
-                            *ngTemplateOutlet="recursiveListTmpl2; context:{ form: formControl}" >
+                    <ng-container *ngTemplateOutlet="recursiveFormTemplate; context:{ form: formControl}" >
                     </ng-container>
-               
           </div>
     </div>
-      <ng-template #recursiveListTmpl2 let-form="form">
-            <div  [ngClass]="{subSectionHeader :form.get('type').value == 'group'}" >
-                    <label [controlName]="form.get('linkId')" ></label>
-                    <label [controlName]="form.get('text')"  class="col-lg-3 col-xs-3"></label>
+    <ng-template #recursiveFormTemplate let-form="form">
+            <div  [ngClass]="{subSectionHeader :form.get('type').value == 'group'}"  class="row">
+                <label [controlName]="form.get('linkId')" ></label>
+                <label [controlName]="form.get('text')"  class="col-lg-3 col-xs-4 col-sm-5"></label>
            
-             
-            <ng-container *ngIf="form.get('answer') " >
-                <ng-container [ngSwitch]="form.get('type').value">
-                    <ng-container  *ngSwitchCase="'text'"  class="col-lg-6 col-xs-6">
-                        <select class="custom-select" (change)="onchangeInput($event, form)" [formControl]="form.get('answer')" 
-                       >
-                            <option value="" >Select Values</option>
-                            <option *ngFor="let optionVal of getOptions(form.get('linkId').value)" [ngValue]="optionVal">{{optionVal}}</option>
-                         </select>
-                    </ng-container>
-
-                    <ng-container *ngSwitchDefault  class="col-lg-6 col-xs-6">
-                            <input [formControl]="form.get('answer')"
-                                    [type]="form.get('type').value"  placeholder="Item answer"
-                                    (change)="onchangeInput($event, form)" 
-                                   >
-                     </ng-container>
-                </ng-container> 
-                <div *ngIf="form.invalid && (form.dirty || form.touched)" class="alert alert-danger">
-                        {{form.errors}}
-                       
-                                this field is required.    
-                </div>     
-            </ng-container>
-        </div>
-
-
+                <ng-container *ngIf="form.get('answer') " >
+                        <ng-container [ngSwitch]="form.get('type').value">
+                        <ng-container  *ngSwitchCase="'text'"  class="col-lg-6 col-xs-6 col-sm-6">
+                                <select class="custom-select" (change)="onchangeInput($event, form)" [formControl]="form.get('answer')" >
+                                <option  value="-1" >Select Values</option>
+                                <option *ngFor="let optionVal of getOptions(form.get('linkId').value)" [ngValue]="optionVal">{{optionVal}}</option>
+                                </select>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault  class="col-lg-6 col-xs-6 col-sm-6">
+                                <input [formControl]="form.get('answer')"
+                                        [type]="form.get('type').value"  placeholder="Item answer"
+                                        (change)="onchangeInput($event, form)" 
+                                        >
+                        </ng-container>
+                        </ng-container> 
+                        <div *ngIf="form.invalid && (form.dirty || form.touched)" class="alert alert-danger">
+                                        this field is required.    
+                        </div>     
+                </ng-container>
+           </div>
             <div *ngIf="form.get('item')" class="subSectionContent" >
                 <ng-container *ngFor="let control of form.get('item')['controls']" >
-                        <ng-container
-                                *ngTemplateOutlet="recursiveListTmpl2; context:{ form: control}"
-                        ></ng-container>
+                        <ng-container *ngTemplateOutlet="recursiveFormTemplate; context:{ form: control}">
+                        </ng-container>
                 </ng-container>
             </div>
       </ng-template>
-      <button type="submit" class="btn btn-success" [disabled]="questionFormGroup.errors != null">Submit</button>
+      <button type="submit" class="btn btn-success" [disabled]="questionFormGroup.invalid">Submit</button>
 </form>
 </div>
-
-<app-answer></app-answer>
+<app-answer ></app-answer>
 
 
 

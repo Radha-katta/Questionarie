@@ -12,6 +12,7 @@ This project is a skeleton project for querying data from the [HAPI FHIR public 
 * [ ] After form submit genearting JSON and the same displaying using answer component
 * [ ] To achieve the desired functionality created and used label directive
 * [ ] To iterate over the array used recursive ngTemplateOutlets
+* [ ] Added Validation for form controls
 
 * [ ] Using the results from the form, generate a [`answerComponent`](https://www.hl7.org/fhir/questionnaireresponse.html). The `answerComponent` should follow the structure outlined in the [Resource Content Section](https://www.hl7.org/fhir/questionnaireresponse.html#resource)
 

@@ -10,13 +10,14 @@ import { QuestionTaskComponent } from './question-task/question-task.component';
 import { LabelControlDirective } from './directives/label-control.directive';
 import { AnswerComponent } from './answer/answer.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     //QuestionsComponent,
     QuestionTaskComponent,
     LabelControlDirective,
-    AnswerComponent
+    AnswerComponent,
   ],
   imports: [
     BrowserModule,

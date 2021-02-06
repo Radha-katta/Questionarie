@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import questionsModel from '../../assets/questionnaire.json';
 import { TopModel } from '../models/top.model';
 import { ApiService } from '../services/api-service.service';
+import { selectValidator } from '../shared/custom-validator.validator';
 
 @Component({
   selector: 'app-question-task',
@@ -56,34 +57,45 @@ export class QuestionTaskComponent implements OnInit {
   }
 
   public createQuestionControl(question, createAnswer) {
-
-    const validationsArray = [];
-    if (question.type != 'group') {
-      validationsArray.push(Validators.required);
+    switch (question.type) {
+      case "boolean":
+        return this.fb.group({
+          linkId : question.linkId,
+          text: question.text,
+          type : this.getType(question.type),
+          answer: false
+        });
+      case "string":
+        return  this.fb.group({
+          linkId : question.linkId,
+          text: question.text,
+          type : this.getType(question.type),
+          answer: ["-1", selectValidator]
+        });;
+      case "date": 
+        return this.fb.group({
+          linkId : question.linkId,
+          text: question.text,
+          type : this.getType(question.type),
+          answer: ["", Validators.required]
+        });
+      default: 
+        return this.fb.group({
+          linkId : question.linkId,
+          text: question.text,
+          type : this.getType(question.type),
+          item: this.fb.array([])
+        });
     }
-    let g = createAnswer ? {
-      linkId : question.linkId,
-      text: question.text,
-      type : this.getType(question.type),
-       answer: ['', validationsArray]
-    } :
-    {
-      linkId : question.linkId,
-      text: question.text,
-      type : this.getType(question.type),
-      item: this.fb.array([])
-    };
-    return this.fb.group(g);
   }
 
   onchangeInput(event, control){
-    debugger;
+  
     if(event.target.type == 'checkbox') {
       event.target.value = event.target.checked;
       control.patchValue({answer: event.target.checked});
-    }else{
-      control.patchValue({answer: event.target.value});
-    }     
+    }
+    this.questionFormGroup.get("item").setValue((this.questionFormGroup.get("item") as FormArray).getRawValue());
   }
 
   public getOptions(linkId){
